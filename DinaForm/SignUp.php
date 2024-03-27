@@ -37,8 +37,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signUp'])) {
     if(empty($_POST['checkbox'])){
       $checkboxErr = 'checkbox is empty!';
     }
+
+    if (empty($NomErr) && empty($prenomErr) && empty($EmailErr) && empty($PasswordErr) && empty($PasswordErr2) && empty($check)) {
+        $email = $_POST["email"]; 
+        $password = $_POST["password"]; 
+        
+        $_SESSION["signup_email"] = $email;
+        $_SESSION["signup_password"] = $password;
+        
+        header("Location: LogIn.php");
+        exit;
+    }
     
-    // Establish the PDO connection
     $servername = "localhost";
     $username = "root";
     $password = "";
@@ -64,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['signUp'])) {
 
         $connection = "New record created successfully. Connection is successful.";
     } catch(PDOException $e) {
-        echo $sql . "<br>" . $e->getMessage();
+      //  echo $sql . "<br>" . $e->getMessage();
     }
 
     $conn = null;
